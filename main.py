@@ -1,5 +1,3 @@
-from logging import exception
-
 from mutagen.easyid3 import EasyID3
 import logging
 from vkpymusic import  TokenReceiver,Service
@@ -11,6 +9,8 @@ import argparse
 LOG_FORMAT = logging.Formatter(u'[LINE:%(lineno)d]# %(levelname)-8s [%(asctime)s]  %(message)s')
 LOG_FILENAME = "bot.log"
 LOG_LEVEL = logging.WARN
+
+download_path = "C:\\Users\\User\\Music\\Dl\\"
 
 
 def _setup_logger() -> logging.Logger:
@@ -58,7 +58,6 @@ def search(query, count = 10):
 
     n = int(input("Enter num of song: "))-1
     song = songs[n]
-    song.to_safe()
     title  = song.title
     artist = song.artist
     temp_audio_path = service.save_music(song)
@@ -66,6 +65,9 @@ def search(query, count = 10):
     audio["title"] = title
     audio["artist"] = artist
     audio.save()
+    print(artist)
+    os.replace(temp_audio_path,f"{download_path}{title}—{artist}.mp3")
+
     os.replace(temp_audio_path,f"{env['PATH']}{title}—{artist}.mp3")
 
 
